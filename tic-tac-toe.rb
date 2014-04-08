@@ -2,13 +2,15 @@
 # Tic Tac Toe Ruby Project!
 
 # Start out by defining the places on the game board:
+
+def game_init
 @boardplaces = { 
             "a1"=>" ","a2"=>" ","a3"=>" ",
             "b1"=>" ","b2"=>" ","b3"=>" ",
             "c1"=>" ","c2"=>" ","c3"=>" ",
           }
 
-@winningcolumns = [
+@winningrows = [
         [ 'a1', 'a2', 'a3'],
         [ 'b1', 'b2', 'b3'],
         [ 'c1', 'c2', 'c3'],
@@ -61,12 +63,94 @@ def game_render
 end
 
 def cpu_turn
-	move = cpu_find_move
-	@places[move] = @cpu
+	move = cpu_decide_move
+	@boardplaces[move] = @cpu
 	put_line
 	puts "#{cpu_name} marks #{move.upcase}"
 	check_game(@user)
 end	
+
+def pieces_on_board, pieces
+	appears = 0
+	arr.each do |ele|
+		appears += 1 if @places[ele] == pieces
+		unless @places[ele] == item || @places[ele] == " "
+			return 0
+		end	
+	end	
+end
+    appears
+end
+
+def empty_board_space arr
+    arr.each do |i|
+       if @places[i] == " "
+       	return i
+       end
+    end   
+end
+
+def cpu_decide_move
+	@winningrows.each do |row|
+		if pieces_on_board(row, @cpu) == 2
+			return empty_board_space row
+		end
+	end
+
+	@winningrows.each do |row|
+		if pieces_on_board(row, @user) == 2
+			return empty_board_space row
+		end
+	end
+
+	@winningrows.each do |row|
+		if pieces_on_board(row, @cpu) == 1
+			return empty_board_space row
+		end
+	end
+
+
+k = @boardplaces.keys;
+i = rand(k.length)
+if @boardplaces[k[i]] == " "
+	return k[i]
+	else
+		@boardplaces.each { |k,v| return k if v == " " }
+	end
+end
+
+def user_turn
+put_line
+puts "Tic Tac Toe, GO!"
+puts game_render
+puts "#{@user_name}, please make a move or type 'exit' to quit"	
+STDOUT.flush
+input = gets.chomp.downcase
+put_bar
+if input.length == 2
+	a = input.split("")
+	if(['a','b','c'].include? a[0])
+		if (['1','2','3'].include? a[1])
+			if @boardplaces[input] == " "
+				@boardplaces[input] = @user
+				put_line
+				puts "#{user_name} marks #{input.upcase}"
+				check_game(@cpu)
+			else
+			    wrong_move
+			end
+		else
+		    wrong_input
+		end
+	else
+	    wrong_input
+	end
+else 
+	wrong_input unless input == 'exit'
+	end
+end
+
+
 
 
 
