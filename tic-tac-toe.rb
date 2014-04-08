@@ -30,4 +30,10 @@
     @user_name = gets.chomp
     put_bar
 
+    if(@user == 'X')
+    	user_turn
+    else
+    	cpu_turn
+    end
+
     
