@@ -70,7 +70,7 @@ def cpu_turn
 	check_game(@user)
 end	
 
-def pieces_on_board, pieces
+def pieces_on_board(pieces)
 	appears = 0
 	arr.each do |ele|
 		appears += 1 if @places[ele] == pieces
@@ -149,6 +149,83 @@ else
 	wrong_input unless input == 'exit'
 	end
 end
+
+def wrong_input
+    put_line
+    puts " Please specify a move with the format 'A1' , 'B3' , 'C2' etc.".red
+    user_turn
+  end
+  
+  def wrong_move
+    put_line
+    puts " You must choose an empty slot".red
+    user_turn
+  end
+  
+  def moves_left
+    @places.values.select{ |v| v == " " }.length
+  end
+  
+  def check_game(next_turn)
+  
+    game_over = nil
+    
+    @rows.each do |row|
+      # see if cpu has won
+      if pieces_on_board(row, @cpu) == 3
+        put_line
+        game_render
+        put_line
+        puts ""
+        puts " Game Over -- #{@cpu_name} WINS!!!\n".blue
+        game_over = true
+        @cpu_score += 1
+        ask_to_play_again(false)
+      end
+      # see if user has won
+      if pieces_on_board(row, @user) == 3
+        put_line
+        game_render
+        put_line
+        puts ""
+        puts " Game Over -- #{@user_name} WINS!!!\n".blue
+        game_over = true
+        @user_score += 1
+        ask_to_play_again(true)
+      end
+    end
+    
+    unless game_over
+      if(moves_left > 0)
+        if(next_turn == @user)
+          user_turn
+        else
+          cpu_turn
+        end
+      else
+        put_line
+        game_render
+        put_line
+        puts ""
+        puts " Game Over -- DRAW!\n".blue
+        ask_to_play_again(rand() > 0.5)
+      end
+    end
+  end
+
+  def ask_to_play_again(user_goes_first)
+    print " Play again? (Yn): "
+    STDOUT.flush
+    response = gets.chomp.downcase
+    case response
+    when "y"   then restart_game(user_goes_first)
+    when "yes" then restart_game(user_goes_first)
+    when "n"   then #do nothing
+    when "no"  then #do nothing
+    else ask_to_play_again(user_goes_first)
+    end
+  end
+  
 
 
 
