@@ -45,3 +45,24 @@ def put_bar
 	puts "#####################################################"
 	puts "#####################################################"
 end	
+
+def game_render
+	puts ""
+	puts "#{cpu_name}: #{@cpu}"
+	puts "#{user_name}: #{@user}"
+	puts ""
+	puts "   a b c"
+	puts ""
+	puts " 1 #{@boardplaces["a1"]}|#{@boardplaces["b1"]}|#{@boardplaces["c1"]}"
+	puts "   -----"
+	puts " 2 #{@boardplaces["a2"]}|#{@boardplaces["b2"]}|#{@boardplaces["c2"]}"
+	puts "   -----"
+	puts " 3 #{@boardplaces["a3"]}|#{@boardplaces["b3"]}|#{@boardplaces["c3"]}"
+end
+
+
+
+
+
+
+
