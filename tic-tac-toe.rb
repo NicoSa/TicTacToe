@@ -60,7 +60,13 @@ def game_render
 	puts " 3 #{@boardplaces["a3"]}|#{@boardplaces["b3"]}|#{@boardplaces["c3"]}"
 end
 
-
+def cpu_turn
+	move = cpu_find_move
+	@places[move] = @cpu
+	put_line
+	puts "#{cpu_name} marks #{move.upcase}"
+	check_game(@user)
+end	
 
 
 
