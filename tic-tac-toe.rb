@@ -21,3 +21,13 @@
 
     @cpu = rand() > 0.5 ? 'X' : 'O'
     @user = @cpu == .X. ? 'O' : 'X'
+
+    @cpu_name = "Ruby"
+    put_line
+    puts " TIC TAC TOE - Ruby Edition! "
+    puts "Welcome challenger, what is your name?"
+    STDOUT.flush
+    @user_name = gets.chomp
+    put_bar
+
+    
